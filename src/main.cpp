@@ -4,6 +4,45 @@
 
 using namespace std;
 
+/*struct Translation{
+    char ru[81];
+    char en[81];
+};*/
+struct Translation{
+    char *ru;
+    char *en;
+};
+struct Array{
+    size_t size;
+    Translation *data;
+};
+
+void addTranslation(Array *array, const char * en,    const char *ru){
+
+
+    // Предусмотреть ситуацию когда перевод уже есть в словаре??
+}
+//Translation findTranslation(Array *array,const char * en ){
+//int findTranslation(Array *array,const char * en,char* ru ){
+Translation* findTranslation(Array *array,const char * en ){
+
+    if ( false /*условие*/){
+        cout << "Не нашлось :(" << endl;
+        return nullptr;
+        //addTranslation()
+        //exit(1);
+    }
+
+}
+void deleteTranslation(Array *array,const char * en){
+
+}
+
+void updateTranslation(Array *array, const char * en, const char *ru){
+    deleteTranslation(array,en);
+    addTranslation(array,en,ru);
+}
+
 int main(int argc,char* argv[])
 {/*
     struct S{
@@ -38,21 +77,22 @@ int main(int argc,char* argv[])
     };*/
 
     //M m = {"Development", {,170,'U'}};
-    /*struct Translation{
-        char ru[81];
-        char en[81];
-    };*/
-    struct Translation{
-        char *ru;
-        char *en;
-    };
 
-    struct Array{
-        size_t size;
-        Translation *data;
-    };
+
+
+
 
     Array transstorage = {0,nullptr};
+
+
+    char enWord[100];
+    cin >> enWord;
+
+    Translation *tr = findTranslation(&transstorage,enWord);
+    if ( tr == nullptr ){
+        // Обработать ситуацию когда перевода нет
+        // addTranslation() ???
+    }
 
     if (transstorage.size == 0){
         transstorage.data = new Translation;
