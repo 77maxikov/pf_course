@@ -241,6 +241,10 @@ public:
         m_size = 0;
         data = nullptr;
     }
+    ~PointArray(){
+        if ( data != nullptr )
+            delete[] data;
+    }
     void addPoint(Point val2add){
         if (m_size == 0) {//if (array->data == nullptr)
             data = new Point[1];
@@ -357,18 +361,21 @@ int main(int argc,char* argv[])
 
 
 
-    PointArray pointArray;
+    for (size_t k = 0; k< 10000000;++k) {
 
-    Point p1;
-    p1.x = 1;p1.y = 2;
+        PointArray pointArray;
 
-    pointArray.addPoint(p1);
+        Point p1;
+        p1.x = 1;p1.y = 2;
 
-    pointArray.addPoint(p1);
+        pointArray.addPoint(p1);
 
-    Point p2 = {2,3};
-    pointArray.addPoint(p2);
+        pointArray.addPoint(p1);
 
+        Point p2 = {2,3};
+        pointArray.addPoint(p2);
+    }
+    /*
     outputPoints(&pointArray);
     outputPoints(&pointArray);
 
@@ -378,6 +385,6 @@ int main(int argc,char* argv[])
     pointArray.addPoint(p4);
 
     outputPoints(&pointArray);
-
+*/
     return 0;
 }
