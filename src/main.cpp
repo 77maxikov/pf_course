@@ -233,8 +233,38 @@ struct Circle{
 
 
 struct PointArray{
-    size_t size;
+private:
+    size_t m_size;
     Point *data;
+public:
+    PointArray(){
+        m_size = 0;
+        data = nullptr;
+    }
+    void addPoint(Point val2add){
+        if (m_size == 0) {//if (array->data == nullptr)
+            data = new Point[1];
+            data[0] = val2add;
+            m_size = 1;
+        }
+        else{
+            Point *tmp = new Point[m_size + 1];
+            // скопировать все элементы из array->data в tmp
+            delete[] data;
+            data = tmp;
+            m_size ++;
+        }
+    }
+    size_t getSize(){return m_size;}
+    Point getElementByInd(size_t index/*номер элемента*/){
+        //array->size = 0;
+        if (m_size <= index )
+            //Ошибка !!!
+            exit(1);
+        else
+            return data[index] ; // *(data + index)
+    }
+
 };
 
 struct SegmentArray{
@@ -246,7 +276,7 @@ struct CircleArray{
     size_t size;
     Circle *data;
 };
-
+/*
 void addPoint(PointArray* array,Point val2add){
     if (array->size == 0) {//if (array->data == nullptr)
         array->data = new Point[1];
@@ -261,41 +291,40 @@ void addPoint(PointArray* array,Point val2add){
         array->size ++;
     }
 }
-
+*/
 void outputPoints(PointArray* array){
-    for (size_t k = 0; k< array->size ;++k){
+    for (size_t k = 0; k< array->getSize() ;++k){
         // Output single point
-    }
+        std::cout << array->getElementByInd(k).x << " " << array->getElementByInd(k).y << std::endl;
+     }
     //array->size = 0;
-    array->data = nullptr;
+    //array->data = nullptr;
 
 }
 
 int main(int argc,char* argv[])
 {
-    PointArray pointArray = {0,nullptr};
+    PointArray pointArray;
 
     Point p1;
     p1.x = 1;p1.y = 2;
-    addPoint(&pointArray,p1);
-    Point p2 = {2,3};
-    addPoint(&pointArray,p2);
 
+    pointArray.addPoint(p1);
+
+    pointArray.addPoint(p1);
+
+    Point p2 = {2,3};
+    pointArray.addPoint(p2);
+
+    outputPoints(&pointArray);
     outputPoints(&pointArray);
 
     Point p3 = {5,3};
-    addPoint(&pointArray,p3);
+    pointArray.addPoint(p3);
     Point p4 = {6,4};
-    addPoint(&pointArray,p4);
+    pointArray.addPoint(p4);
 
     outputPoints(&pointArray);
-
-
-
-
-
-
-
 
     return 0;
 }
