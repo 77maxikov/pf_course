@@ -17,6 +17,160 @@ struct Array{
     Translation *data;
 };
 
+struct DoubleArray{
+    size_t size;
+    double *data;
+};
+
+void addDouble(DoubleArray* array,double val2add){
+    if (array->size == 0) {//if (array->data == nullptr)
+        array->data = new double[1];
+        array->data[0] = val2add;
+        array->size = 1;
+    }
+    else{
+        double *tmp = new double[array->size + 1];
+        // скопировать все элементы из array->data в tmp
+        delete[] array->data;
+        array->data = tmp;
+        array->size ++;
+    }
+}
+
+double getElementByInd(const DoubleArray* array,size_t index/*номер элемента*/){
+    //array->size = 0;
+    if (array == nullptr ||  array->size <= index )
+        //Ошибка !!!
+        exit(1);
+    else
+        return array->data[index] ; // *(array->data + index)
+}
+
+
+
+
+
+#define Data double
+
+struct Node{
+    Data data;
+    Node *next;
+    Node *prev;
+};
+
+struct DoubleList {
+    Node *first;
+    Node *last;
+    size_t size;
+};
+
+//double getElementByInd(const DoubleList* list,size_t index/*номер элемента*/)
+
+double getData(Node *marker){
+    return  marker->data;
+}
+
+void moveNext(Node *marker){
+    marker = marker->next;
+}
+
+bool canMoveNext(Node* marker){
+    return marker->next != nullptr;
+}
+
+void writeToFile(const DoubleArray *array){
+    for (size_t k = 0;k < array->size;++k){
+        // WriteToFile(array->data[k])
+    }
+}
+
+void writeToFile(const DoubleList *list){
+    Node *marker = list->first;
+    do{
+        // WriteToFile(getData(marker));
+        moveNext(marker);
+    }
+    while ( canMoveNext(marker) );
+
+}
+
+struct ArrayMarker{
+    DoubleArray *array;
+    size_t position;
+};
+
+double getData(ArrayMarker *marker){
+
+}
+
+void moveNext(ArrayMarker *marker){
+
+}
+
+bool canMoveNext(ArrayMarker * marker){
+
+}
+
+void writeToFile(DoubleArray *array){
+
+    ArrayMarker *marker = new ArrayMarker;
+    marker->array = array;
+    marker->position = 0;
+    do{
+        // WriteToFile(getData(marker));
+        moveNext(marker);
+    }
+    while ( canMoveNext(marker) );
+
+}
+
+bool findElementUnordered(DoubleArray* ,double val2find){
+
+}
+
+bool findElementOrdered(DoubleArray* ,double val2find){
+
+}
+
+bool findElementUnordered(DoubleList* ,double val2find){
+
+}
+
+bool findElementOrdered(DoubleList* ,double val2find){
+
+}
+
+
+void addDouble(DoubleList* list,double val2add){
+    if (list->size == 0){
+        list->first = new Node;
+        list->first->data = val2add;
+        list->first->next = nullptr;
+        list->size = 1;
+        list->last = list->first;
+    }
+    else{
+        Node* tmp = new Node;
+        tmp->data = val2add;
+        tmp->next = nullptr;
+
+        list->last->next = tmp;
+        list->last = tmp;
+        /*
+        Node *marker = list->first;
+        while ( marker->next != nullptr ){
+            marker = marker->next;
+        }
+        marker->next = tmp;*/
+    }
+}
+
+
+
+
+
+
+
 void addTranslation(Array *array, const char * en,    const char *ru){
 
 
@@ -43,158 +197,105 @@ void updateTranslation(Array *array, const char * en, const char *ru){
     addTranslation(array,en,ru);
 }
 
+Array loadTranslations(char* filename){ // Чтение данных словаря из файла
+
+}
+
+void saveTranslations(Array arr,char* filename){ // Запись данных словаря в файл filename
+    //fs.write((&arr),sizeof(arr));
+}
+#include <cmath>
+
+enum Colors{COL_RED,COL_GREEN,COL_BLUE};
+
+struct Point{
+    //Colors color;
+    int x;
+    int y;
+};
+
+struct Segment{
+    //Colors color;
+    Point p1;
+    Point p2;
+};
+
+struct Circle{
+    //Colors color;
+    Point center;
+    int r;
+};
+
+
+
+
+
+
+
+struct PointArray{
+    size_t size;
+    Point *data;
+};
+
+struct SegmentArray{
+    size_t size;
+    Segment *data;
+};
+
+struct CircleArray{
+    size_t size;
+    Circle *data;
+};
+
+void addPoint(PointArray* array,Point val2add){
+    if (array->size == 0) {//if (array->data == nullptr)
+        array->data = new Point[1];
+        array->data[0] = val2add;
+        array->size = 1;
+    }
+    else{
+        Point *tmp = new Point[array->size + 1];
+        // скопировать все элементы из array->data в tmp
+        delete[] array->data;
+        array->data = tmp;
+        array->size ++;
+    }
+}
+
+void outputPoints(PointArray* array){
+    for (size_t k = 0; k< array->size ;++k){
+        // Output single point
+    }
+    //array->size = 0;
+    array->data = nullptr;
+
+}
+
 int main(int argc,char* argv[])
-{/*
-    struct S{
-        char *name;
-        int height;
-        char countrycode;
-    };
+{
+    PointArray pointArray = {0,nullptr};
 
-    S s ;//= {"John",56,'G'};
-    s.name = new char[10];
-    cout << "Name" << s.name << '\t' << "height " << s.height << endl;
-    //strcpy(s.name,"John");
-    //strcpy(s.name,"Alexander");
-    cin >> s.name ;
-    cout << "Name" << s.name << '\t' << "height " << s.height << endl;
+    Point p1;
+    p1.x = 1;p1.y = 2;
+    addPoint(&pointArray,p1);
+    Point p2 = {2,3};
+    addPoint(&pointArray,p2);
 
-    S group[20];
-    group[0].name = new char[6];
-    cin >> group[0].name;
-    group[1].height = 170;
+    outputPoints(&pointArray);
 
-    S* newgroup;
-    newgroup = new S[18];
-    newgroup[0].height = 167;
-    (*newgroup).countrycode = 'A';
-    newgroup->countrycode = 'R';
-    (newgroup + 2)->countrycode ='U';
+    Point p3 = {5,3};
+    addPoint(&pointArray,p3);
+    Point p4 = {6,4};
+    addPoint(&pointArray,p4);
 
-    struct M{
-        char disstheme[30];
-        S s_info;
-    };*/
-
-    //M m = {"Development", {,170,'U'}};
+    outputPoints(&pointArray);
 
 
 
 
 
-    Array transstorage = {0,nullptr};
 
 
-    char enWord[100];
-    cin >> enWord;
 
-    Translation *tr = findTranslation(&transstorage,enWord);
-    if ( tr == nullptr ){
-        // Обработать ситуацию когда перевода нет
-        // addTranslation() ???
-    }
-
-    if (transstorage.size == 0){
-        transstorage.data = new Translation;
-        transstorage.size = 1;
-        char buffer[81];
-        cout << "Input english word" << endl;
-        cin >> buffer;
-        size_t k = 0;
-        for (;k < 81;++k)
-            if ( buffer[k] == '\0' )
-                break;
-        cout << k << " bytes " << endl;
-        transstorage.data->en = new char[k+1];
-        for ( size_t counter = 0; counter < k+1 ;++counter )
-            transstorage.data->en[counter] = buffer[counter];
-
-        cout << "Input russian word" << endl;
-        cin >> buffer;
-        k = 0;
-        for (;k < 81;++k)
-            if ( buffer[k] == '\0' )
-                break;
-        cout << k << " bytes " << endl;
-        transstorage.data->ru = new char[k+1];
-        for ( size_t counter = 0; counter < k+1 ;++counter )
-            transstorage.data->ru[counter] = buffer[counter];
-    }
-    cout << "Dictionary size " << transstorage.size << endl;
-    cout << "First element " << transstorage.data[0].en << ':' << transstorage.data[0].ru  << endl;
-
-    delete[] transstorage.data[0].en;
-    delete[] transstorage.data[0].ru;
-    delete transstorage.data;
-
-
-    //s.name = new char[5];
-
-    //cout << "Sizeof(s) " << sizeof(s) << endl;
-
-    /*if (argc < 3) {
-        cout << "Not enough parameters" << endl;
-        return 1;
-    }
-    char* srcfilename = argv[1];
-    char* dstfilename = argv[2];
-
-    fstream srcfs;
-    srcfs.open(srcfilename,ios_base::in);
-    fstream dstfs;
-    dstfs.open(dstfilename,ios_base::out|ios_base::trunc);
-    if (srcfs.is_open() && dstfs.is_open() ){
-        while (1){
-            char c = srcfs.get();
-            if (srcfs.eof()) break;
-            dstfs.put(c);
-        }
-        srcfs.close();
-        dstfs.close();
-        return 0;
-    }
-    return 1;
-*/
-
-    /*
-    fstream fs;
-    fs.open("sample.txt",ios_base::trunc|ios_base::out);
-    if (fs.is_open()){
-        fs << "Hello" << endl;
-        fs << 1234567;
-        int k = 1234567;
-        fs.write((char*)&k,sizeof(k));
-        cout << " Now at write marker " << fs.tellp() << endl;
-        fs.seekp(0);
-        fs << "olleH";
-        fs.close();
-
-    }
-
-    fs.open("sample.txt",ios_base::in);
-    if (fs.is_open()){
-        char c = fs.get();
-        cout << "read c " << c << endl;
-        cout << " Now at " << fs.tellg() << endl;
-        fs.seekg(4);
-        c = fs.get();
-        cout << "read c " << c << endl;
-        cout << " Now at " << fs.tellg() << endl;
-        fs.seekg(4,ios_base::cur);
-        c = fs.get();
-        cout << "read c " << c << endl;
-        cout << " Now at " << fs.tellg() << endl;
-        fs.seekg(0,ios_base::beg);
-        c = fs.get();
-        cout << "read c " << c << endl;
-        cout << " Now at " << fs.tellg() << endl;
-
-        fs.seekg(0,ios_base::end);
-        cout << " Now at " << fs.tellg() << endl;
-        cout << " file size " << fs.tellg() << endl;
-
-
-            }
-            */
     return 0;
 }
