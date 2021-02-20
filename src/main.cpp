@@ -208,68 +208,15 @@ void saveTranslations(Array arr,char* filename){ // Запись данных с
 
 enum Colors{COL_RED,COL_GREEN,COL_BLUE};
 
-struct Point{
-    //Colors color;
-    int x;
-    int y;
-};
-
-struct Segment{
-    //Colors color;
-    Point p1;
-    Point p2;
-};
-
-struct Circle{
-    //Colors color;
-    Point center;
-    int r;
-};
+#include "objects.h"
 
 
 
 
 
 
+#include "point_array.h"
 
-struct PointArray{
-private:
-    size_t m_size;
-    Point *data;
-public:
-    PointArray(){
-        m_size = 0;
-        data = nullptr;
-    }
-    ~PointArray(){
-        if ( data != nullptr )
-            delete[] data;
-    }
-    void addPoint(Point val2add){
-        if (m_size == 0) {//if (array->data == nullptr)
-            data = new Point[1];
-            data[0] = val2add;
-            m_size = 1;
-        }
-        else{
-            Point *tmp = new Point[m_size + 1];
-            // скопировать все элементы из array->data в tmp
-            delete[] data;
-            data = tmp;
-            m_size ++;
-        }
-    }
-    size_t getSize(){return m_size;}
-    Point getElementByInd(size_t index/*номер элемента*/){
-        //array->size = 0;
-        if (m_size <= index )
-            //Ошибка !!!
-            exit(1);
-        else
-            return data[index] ; // *(data + index)
-    }
-
-};
 
 bool testPointArrayCreation(){
     PointArray array;
@@ -345,40 +292,57 @@ void addPoint(PointArray* array,Point val2add){
     }
 }
 */
-void outputPoints(PointArray* array){
-    for (size_t k = 0; k< array->getSize() ;++k){
+void outputPoints(PointArray& pointStorage){
+    //std::cout << "sizeof(PointArray) = " << sizeof(PointArray) << std::endl;
+    //std::cout << "sizeof(pointStorage) = " << sizeof(pointStorage) << std::endl;
+    for (size_t k = 0; k< pointStorage.getSize() ;++k){
         // Output single point
-        std::cout << array->getElementByInd(k).x << " " << array->getElementByInd(k).y << std::endl;
-     }
-    //array->size = 0;
-    //array->data = nullptr;
-
+        std::cout << pointStorage.getElementByInd(k).x
+                  << " " << pointStorage.getElementByInd(k).y
+                  << std::endl;
+     }    
 }
 
 int main(int argc,char* argv[])
 {
     runAllTests();
 
+    unsigned char   k = 23;
+    unsigned char&  kr = k;
+
+    std::cout << k << "  " << kr << std::endl;
+    kr = 242;
+    k = 231;
+    std::cout << k << "  " << kr << std::endl;
+    std::cout << sizeof(k) << "  " << sizeof(kr) << std::endl;
 
 
-    for (size_t k = 0; k< 10000000;++k) {
+//    for (size_t k = 0; k< 10000000;++k) {
 
-        PointArray pointArray;
+        PointArray pointStorage;
+        //PointList pointStorage;
 
         Point p1;
         p1.x = 1;p1.y = 2;
 
-        pointArray.addPoint(p1);
+        pointStorage.addPoint(p1);
 
-        pointArray.addPoint(p1);
+        pointStorage.addPoint(p1);
 
         Point p2 = {2,3};
-        pointArray.addPoint(p2);
-    }
-    /*
-    outputPoints(&pointArray);
-    outputPoints(&pointArray);
+        pointStorage.addPoint(p2);
+ //   }
+    {
+        PointArray pointStorageCopy(pointStorage);
 
+
+
+        outputPoints(pointStorageCopy);
+    }
+    Point p3 = {5,3};
+    pointStorage.addPoint(p3);
+    outputPoints(pointStorage);
+/*
     Point p3 = {5,3};
     pointArray.addPoint(p3);
     Point p4 = {6,4};
